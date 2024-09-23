@@ -1,10 +1,6 @@
-# -*- coding: utf-8 -*-
 """
 Template tags related to the contact form.
 """
-
-from __future__ import unicode_literals
-
 from django import template
 
 import honeypot

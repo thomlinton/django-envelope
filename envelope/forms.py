@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import unicode_literals
-
 """
 Contact form class definitions.
 """
@@ -12,7 +8,7 @@ from smtplib import SMTPException
 from django import forms
 from django.core import mail
 from django.template.loader import render_to_string
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from envelope import settings
 from envelope.signals import after_send
@@ -74,7 +70,7 @@ class ContactForm(forms.Form):
         subject = self.get_subject()
         from_email = self.get_from_email()
         email_recipients = self.get_email_recipients()
-        context = self.get_context()
+        context = self.get_email_context()
         message_body = render_to_string(self.get_template_names(), context)
         try:
             message = mail.EmailMultiAlternatives(
@@ -99,7 +95,7 @@ class ContactForm(forms.Form):
         else:
             return True
 
-    def get_context(self):
+    def get_email_context(self):
         """
         Returns context dictionary for the email body template.
 

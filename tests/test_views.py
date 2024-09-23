@@ -1,21 +1,9 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import unicode_literals, print_function
-
 """
 Unit tests for ``django-envelope`` views.
 """
-
-import unittest
-
 from django.conf import settings
+from django.urls import reverse
 from django.contrib.auth.models import User
-
-try:
-    from django.core.urlresolvers import reverse
-except ImportError:
-    from django.urls import reverse
-
 from django.test import TestCase
 
 import honeypot
@@ -63,13 +51,26 @@ class ContactViewTestCase(TestCase):
         logged_in = self.client.login(username='test', password='password')
         self.assertTrue(logged_in)
         response = self.client.get(self.url)
-        self.assertContains(response, 'value="test (John Doe)"')
-        self.assertContains(response, 'value="test@example.org"')
+        self.assertIn('form', response.context)
+        self.assertEquals(
+            response.context['form'].initial.get('sender'),
+            "test (John Doe)"
+        )
+        self.assertEquals(
+            response.context['form'].initial.get('email'),
+            "test@example.org"
+        )
 
         self.client.logout()
         response = self.client.get(self.url)
-        self.assertNotContains(response, 'value="test (John Doe)"')
-        self.assertNotContains(response, 'value="test@example.org"')
+        self.assertNotEquals(
+            response.context['form'].initial.get('sender'),
+            "test (John Doe)"
+        )
+        self.assertNotEquals(
+            response.context['form'].initial.get('email'),
+            "test@example.org"
+        )
 
     def test_prefilled_form_no_full_name(self):
         """
@@ -81,7 +82,11 @@ class ContactViewTestCase(TestCase):
         logged_in = self.client.login(username='test', password='password')
         self.assertTrue(logged_in)
         response = self.client.get(self.url)
-        self.assertContains(response, 'value="test"')
+        self.assertIn('form', response.context)
+        self.assertEquals(
+            response.context['form'].initial.get('sender'),
+            "test"
+        )
 
     def test_honeypot(self):
         """

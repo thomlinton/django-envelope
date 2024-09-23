@@ -1,6 +1,4 @@
-from __future__ import unicode_literals
-
-from django.conf.urls import include, url
+from django.urls import include, re_path
 
 from braces.views import FormMessagesMixin
 
@@ -14,7 +12,7 @@ class MessagesContactView(FormMessagesMixin, ContactView):
 
 
 urlpatterns = [
-    url(r'', include('envelope.urls')),
-    url(r'^crispy/', ContactView.as_view(template_name='envelope/crispy_contact.html'), name='crispy-contact'),
-    url(r'^messages/', MessagesContactView.as_view(), name='messages-contact'),
+    re_path(r'', include('envelope.urls')),
+    re_path(r'^crispy/', ContactView.as_view(template_name='envelope/crispy_contact.html'), name='crispy-contact'),
+    re_path(r'^messages/', MessagesContactView.as_view(), name='messages-contact'),
 ]

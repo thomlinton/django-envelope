@@ -1,11 +1,6 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import unicode_literals
-
 """
 Unit tests for spam filters.
 """
-
 import unittest
 
 from django.conf import settings

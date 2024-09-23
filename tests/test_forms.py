@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import unicode_literals
-
 """
 Unit tests for ``django-envelope`` forms.
 """
@@ -64,13 +60,13 @@ class ContactFormTestCase(unittest.TestCase):
         form = ContactForm(self.form_data)
         self.assertTrue(form.is_valid())
 
-    def test_get_context(self):
+    def test_get_email_context(self):
         """
-        get_context() returns a copy of form's cleaned_data.
+        get_email_context() returns a copy of form's cleaned_data.
         """
         form = ContactForm(self.form_data)
         self.assertTrue(form.is_valid())
-        context = form.get_context()
+        context = form.get_email_context()
         self.assertEqual(context, form.cleaned_data)
         self.assertIsNot(context, form.cleaned_data)
 

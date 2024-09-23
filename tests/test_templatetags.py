@@ -1,10 +1,6 @@
-# -*- coding: utf-8 -*-
 """
 Unit tests for ``django-envelope`` template tags.
 """
-
-from __future__ import unicode_literals
-
 from django.template import TemplateSyntaxError
 from django.template.loader import render_to_string
 from django.test import TestCase

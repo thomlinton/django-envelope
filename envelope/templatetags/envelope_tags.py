@@ -7,18 +7,15 @@ from __future__ import unicode_literals
 
 from django import template
 
+import honeypot
+
 register = template.Library()
 
-try:
-    import honeypot
 
-    # Register antispam_fields as an inclusion tag
-    t = template.Template('{% load honeypot %}{% render_honeypot_field %}')
-    register.inclusion_tag(t, name='antispam_fields')(lambda: {})
-
-except ImportError:  # pragma: no cover
-    # Register antispam_fields as an empty tag
-    register.simple_tag(name='antispam_fields')(lambda: '')
+# Register antispam_fields as an inclusion tag
+@register.inclusion_tag('envelope/honeypot.html', takes_context=True)
+def render_honeypot(context):
+    return context
 
 
 @register.inclusion_tag('envelope/contact_form.html', takes_context=True)

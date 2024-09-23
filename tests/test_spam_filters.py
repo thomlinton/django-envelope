@@ -10,10 +10,7 @@ import unittest
 
 from django.conf import settings
 
-try:
-    import honeypot
-except ImportError:
-    honeypot = None
+import honeypot
 
 from envelope.spam_filters import check_honeypot
 
@@ -46,7 +43,6 @@ class CheckHoneypotTestCase(unittest.TestCase):
         self.request.POST[self.honeypot] = ''
         self.assertTrue(check_honeypot(self.request, self.form))
 
-    @unittest.skipIf(honeypot is None, "django-honeypot is not installed")
     def test_filled_honeypot(self):
         """
         A value in the honeypot field is an indicator of a bot request.

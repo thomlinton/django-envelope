@@ -18,10 +18,7 @@ except ImportError:
 
 from django.test import TestCase
 
-try:
-    import honeypot
-except ImportError:
-    honeypot = None
+import honeypot
 
 from envelope import signals
 
@@ -86,7 +83,6 @@ class ContactViewTestCase(TestCase):
         response = self.client.get(self.url)
         self.assertContains(response, 'value="test"')
 
-    @unittest.skipIf(honeypot is None, "django-honeypot is not installed")
     def test_honeypot(self):
         """
         If the honeypot field is not empty, keep the spammer off the page.

@@ -3,10 +3,8 @@ import os
 
 import django
 
-try:
-    import honeypot
-except ImportError:
-    honeypot = None
+import honeypot
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -20,10 +18,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'envelope',
+    'honeypot'
 )
-
-if honeypot:
-    INSTALLED_APPS += ('honeypot',)
 
 DATABASES = {
     'default': {

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Cookbook &#8212; django-envelope  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Development" href="development.html" />
+    <link rel="prev" title="Customization" href="customization.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="cookbook">
+<h1>Cookbook<a class="headerlink" href="#cookbook" title="Link to this heading">¶</a></h1>
+<section id="success-and-error-messages">
+<h2>Success and error messages<a class="headerlink" href="#success-and-error-messages" title="Link to this heading">¶</a></h2>
+<p>Starting from release 1.0, <a class="reference internal" href="reference.html#envelope.views.ContactView" title="envelope.views.ContactView"><code class="xref py py-class docutils literal notranslate"><span class="pre">envelope.views.ContactView</span></code></a> does not set any
+<a class="reference external" href="https://docs.djangoproject.com/en/dev/ref/contrib/messages/">messages</a> since these were customized by most users anyway. We encourage
+you to use the excellent <a class="reference external" href="https://github.com/brack3t/django-braces">django-braces</a> app which provides a
+<a class="reference external" href="http://django-braces.readthedocs.org/en/latest/form.html#formmessagesmixin">FormMessagesMixin</a> designed specifically for this purpose.</p>
+<p>The following example shows how to add the mixin to <code class="docutils literal notranslate"><span class="pre">ContactView</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">braces.views</span> <span class="kn">import</span> <span class="n">FormMessagesMixin</span>
+<span class="kn">from</span> <span class="nn">envelope.views</span> <span class="kn">import</span> <span class="n">ContactView</span>
+
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+
+
+<span class="k">class</span> <span class="nc">MyContactView</span><span class="p">(</span><span class="n">FormMessagesMixin</span><span class="p">,</span> <span class="n">ContactView</span><span class="p">):</span>
+    <span class="n">form_valid_message</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Thank you for your message.&quot;</span><span class="p">)</span>
+    <span class="n">form_invalid_message</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;There was an error in the contact form.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See the <a class="reference internal" href="customization.html#subclassing-contact-view"><span class="std std-ref">customization section</span></a> on how to plug
+the subclassed view into your URLconf.</p>
+<p>Check out <a class="reference external" href="https://docs.djangoproject.com/en/dev/ref/contrib/messages/#enabling-messages">Django messages documentation</a> to make sure messages are enabled in your project.</p>
+</section>
+<section id="bootstrap-integration">
+<h2>Bootstrap integration<a class="headerlink" href="#bootstrap-integration" title="Link to this heading">¶</a></h2>
+<section id="embedding-the-contact-form">
+<h3>Embedding the contact form<a class="headerlink" href="#embedding-the-contact-form" title="Link to this heading">¶</a></h3>
+<p>From our personal experience with <a class="reference external" href="http://getbootstrap.com/">Bootstrap</a>-powered websites, the easiest
+way to embed the contact form is to use <a class="reference external" href="https://github.com/maraujop/django-crispy-forms">django-crispy-forms</a>. Install it
+with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">django</span><span class="o">-</span><span class="n">crispy</span><span class="o">-</span><span class="n">forms</span>
+</pre></div>
+</div>
+<p>and add <code class="docutils literal notranslate"><span class="pre">crispy_forms</span></code> to <code class="docutils literal notranslate"><span class="pre">INSTALLED_APPS</span></code>. From there it’s as simple as
+adding a <code class="docutils literal notranslate"><span class="pre">crispy</span></code> template tag to display the form. For example:</p>
+<div class="highlight-html+django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">load</span> <span class="nv">envelope_tags</span> <span class="nv">crispy_forms_tags</span> <span class="cp">%}</span>
+
+...
+
+<span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;envelope-contact&#39;</span> <span class="cp">%}</span><span class="s">&quot;</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;post&quot;</span><span class="p">&gt;</span>
+    <span class="cp">{%</span> <span class="k">csrf_token</span> <span class="cp">%}</span>
+    <span class="cp">{%</span> <span class="k">antispam_fields</span> <span class="cp">%}</span>
+    <span class="cp">{%</span> <span class="k">crispy</span> <span class="nv">form</span> <span class="cp">%}</span>
+<span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>To add a submit button, create a custom form using <code class="docutils literal notranslate"><span class="pre">django-crispy-forms</span></code> helper:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># forms.py</span>
+<span class="kn">from</span> <span class="nn">envelope.forms</span> <span class="kn">import</span> <span class="n">ContactForm</span>
+<span class="kn">from</span> <span class="nn">crispy_forms.helper</span> <span class="kn">import</span> <span class="n">FormHelper</span>
+<span class="kn">from</span> <span class="nn">crispy_forms.layout</span> <span class="kn">import</span> <span class="n">Submit</span>
+
+
+<span class="k">class</span> <span class="nc">MyContactForm</span><span class="p">(</span><span class="n">ContactForm</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MyContactForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">helper</span> <span class="o">=</span> <span class="n">FormHelper</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="n">Submit</span><span class="p">(</span><span class="s1">&#39;submit&#39;</span><span class="p">,</span> <span class="s1">&#39;Submit&#39;</span><span class="p">,</span> <span class="n">css_class</span><span class="o">=</span><span class="s1">&#39;btn-lg&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>And finally link this form to your view:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># views.py</span>
+<span class="kn">from</span> <span class="nn">braces.views</span> <span class="kn">import</span> <span class="n">FormMessagesMixin</span>
+<span class="kn">from</span> <span class="nn">envelope.views</span> <span class="kn">import</span> <span class="n">ContactView</span>
+
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+
+<span class="kn">from</span> <span class="nn">.forms</span> <span class="kn">import</span> <span class="n">MyContactForm</span>
+
+
+<span class="k">class</span> <span class="nc">MyContactView</span><span class="p">(</span><span class="n">FormMessagesMixin</span><span class="p">,</span> <span class="n">ContactView</span><span class="p">):</span>
+    <span class="n">form_invalid_message</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;There was an error in the contact form.&quot;</span><span class="p">)</span>
+    <span class="n">form_valid_message</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Thank you for your message.&quot;</span><span class="p">)</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">MyContactForm</span>
+</pre></div>
+</div>
+<p>or just use it in your urls.py if you directly reference <a class="reference internal" href="reference.html#envelope.views.ContactView" title="envelope.views.ContactView"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContactView</span></code></a> <code class="docutils literal notranslate"><span class="pre">as_view()</span></code> method:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># urls.py</span>
+<span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">patterns</span><span class="p">,</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">envelope.views</span> <span class="kn">import</span> <span class="n">ContactView</span>
+
+<span class="kn">from</span> <span class="nn">.forms</span> <span class="kn">import</span> <span class="n">MyContactForm</span>
+
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^contact/&#39;</span><span class="p">,</span> <span class="n">ContactView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="n">form_class</span><span class="o">=</span><span class="n">MyContactForm</span><span class="p">)),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="displaying-form-messages-nicely">
+<h3>Displaying form messages nicely<a class="headerlink" href="#displaying-form-messages-nicely" title="Link to this heading">¶</a></h3>
+<p>GETting the contact form page after POSTing it will give you access to either a success message (form_valid_message)
+or an error message (form_invalid_message) thanks to django-braces’ <code class="docutils literal notranslate"><span class="pre">FormMessagesMixin</span></code>. These messages use
+<a class="reference external" href="https://docs.djangoproject.com/en/dev/ref/contrib/messages/#message-tags">Django messages tag level</a> so you can use the right Bootstrap class.</p>
+<p>We recommend you first override Django’s default message tags as following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># settings.py</span>
+<span class="n">MESSAGE_TAGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">messages</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span> <span class="s1">&#39;debug&#39;</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">.</span><span class="n">INFO</span><span class="p">:</span> <span class="s1">&#39;info&#39;</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">:</span> <span class="s1">&#39;success&#39;</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">.</span><span class="n">WARNING</span><span class="p">:</span> <span class="s1">&#39;warning&#39;</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">.</span><span class="n">ERROR</span><span class="p">:</span> <span class="s1">&#39;danger&#39;</span> <span class="c1"># &#39;error&#39; by default</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Then you can use <a class="reference external" href="https://docs.djangoproject.com/en/dev/ref/contrib/messages/#displaying-messages">Django’s tip</a> to display messages with Bootstrap CSS classes such as text-info or alert-warning:</p>
+<div class="highlight-html+django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">messages</span> <span class="cp">%}</span>
+    <span class="p">&lt;</span><span class="nt">ul</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;messages&quot;</span><span class="p">&gt;</span>
+        <span class="cp">{%</span> <span class="k">for</span> <span class="nv">message</span> <span class="k">in</span> <span class="nv">messages</span> <span class="cp">%}</span>
+            <span class="p">&lt;</span><span class="nt">li</span> <span class="cp">{%</span> <span class="k">if</span> <span class="nv">message.tags</span> <span class="cp">%}</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;text-</span><span class="cp">{{</span> <span class="nv">message.tags</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="p">&gt;</span>
+                <span class="cp">{{</span> <span class="nv">message</span> <span class="cp">}}</span>
+            <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+    <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="categorized-contact-form">
+<h2>Categorized contact form<a class="headerlink" href="#categorized-contact-form" title="Link to this heading">¶</a></h2>
+<p>Although the <code class="docutils literal notranslate"><span class="pre">category</span></code> field was removed from the default form class in
+1.0, you can bring it back to your form using the following subclass:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">envelope.forms</span> <span class="kn">import</span> <span class="n">ContactForm</span>
+
+<span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">forms</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+
+
+<span class="k">class</span> <span class="nc">CategorizedContactForm</span><span class="p">(</span><span class="n">ContactForm</span><span class="p">):</span>
+    <span class="n">CATEGORY_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Choose&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;A general question regarding the website&quot;</span><span class="p">)),</span>
+        <span class="c1"># ... any other choices you can imagine</span>
+        <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Other&quot;</span><span class="p">)),</span>
+    <span class="p">)</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">ChoiceField</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Category&quot;</span><span class="p">),</span> <span class="n">choices</span><span class="o">=</span><span class="n">CATEGORY_CHOICES</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Category choice will be rendered above the subject field.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CategorizedContactForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">keyOrder</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;sender&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="s1">&#39;subject&#39;</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds full category description to template variables in order</span>
+<span class="sd">        to display the category in email body.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">CategorizedContactForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_context</span><span class="p">()</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_category_display</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">context</span>
+
+    <span class="k">def</span> <span class="nf">get_category_display</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the displayed name of the selected category.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">category</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">):</span>
+            <span class="n">category</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CATEGORY_CHOICES</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">django-envelope</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customization.html">Customization</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Cookbook</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#success-and-error-messages">Success and error messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bootstrap-integration">Bootstrap integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#categorized-contact-form">Categorized contact form</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Changelog</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="customization.html" title="previous chapter">Customization</a></li>
+      <li>Next: <a href="development.html" title="next chapter">Development</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2011-2017, Zbigniew Siciarz.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.4.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/cookbook.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

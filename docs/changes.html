@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Changelog &#8212; django-envelope  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Reference" href="reference.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">¶</a></h1>
+<section id="id1">
+<h2>1.4.0<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>fixed french translation</p></li>
+<li><p>Python 3.7, 3.8 and Django 2.2, 3.0 compatibility</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id2">
+<h2>1.3.0<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>added Greek translation, thanks raratiru!</p></li>
+<li><p>Python 3.6 and Django 1.11 compatibility</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id3">
+<h2>1.2.0<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>added Latvian and Russian translations, thanks wildd!</p></li>
+<li><p>added Spanish translations, thanks javipalanca!</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id4">
+<h2>1.1.0<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>added Brazilian Portuguese translation, thanks aleprovencio!</p></li>
+<li><p>Python 3.5 and Django 1.9 compatibility</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id5">
+<h2>1.0.0<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>Improvements and fixes:</dt><dd><ul class="simple">
+<li><p>HTML email support</p></li>
+<li><p>subject field is optional by default</p></li>
+<li><p>support for <a class="reference external" href="https://docs.djangoproject.com/en/dev/topics/auth/customizing/#substituting-a-custom-user-model">custom User model</a></p></li>
+<li><p>docs: added <a class="reference internal" href="cookbook.html"><span class="doc">Cookbook</span></a></p></li>
+</ul>
+</dd>
+<dt>Backwards incompatible changes:</dt><dd><ul class="simple">
+<li><p>removed category field from <a class="reference internal" href="reference.html#envelope.forms.ContactForm" title="envelope.forms.ContactForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContactForm</span></code></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BaseContactForm</span></code> no longer exists; to customize form processing, subclass
+<a class="reference internal" href="reference.html#envelope.forms.ContactForm" title="envelope.forms.ContactForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContactForm</span></code></a> directly</p></li>
+<li><p><a class="reference internal" href="reference.html#envelope.views.ContactView" title="envelope.views.ContactView"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContactView</span></code></a> does not create any flash messages;
+use <a class="reference external" href="http://django-braces.readthedocs.org/en/latest/form.html#formmessagesmixin">FormMessagesMixin</a> from  <a class="reference external" href="https://github.com/brack3t/django-braces">django-braces</a> (see the <a class="reference internal" href="cookbook.html"><span class="doc">Cookbook</span></a>
+for an example)</p></li>
+<li><p>dropped Django 1.4 compatibility</p></li>
+<li><p>dropped Python 2.6 compatibility; use 2.7 or 3.3+</p></li>
+<li><p>message rejection reason from signal handlers isn’t sent to the user in
+HTTP 400 response’s body</p></li>
+<li><p>the default <code class="docutils literal notranslate"><span class="pre">envelope/contact.html</span></code> template is removed; one must create
+the template explicitly</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h2>0.7.0<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>added <a class="reference internal" href="reference.html#envelope.templatetags.envelope_tags.render_contact_form" title="envelope.templatetags.envelope_tags.render_contact_form"><code class="xref py py-func docutils literal notranslate"><span class="pre">{%</span> <span class="pre">render_contact_form</span> <span class="pre">%}</span></code></a>
+template tag</p></li>
+<li><p>Django 1.6 compatibility</p></li>
+<li><p>settled on 3.3 as the minimum supported Python 3 version</p></li>
+<li><p>moved to Travis CI as the continuous integration solution</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id7">
+<h2>0.6.1<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>fixed <code class="docutils literal notranslate"><span class="pre">NameError</span></code> in example project</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id8">
+<h2>0.6.0<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Python 3 compatibility!</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id9">
+<h2>0.5.1<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>fixed template loading in tests</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id10">
+<h2>0.5.0<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>contact form class is more customizable</p></li>
+<li><p>the <code class="docutils literal notranslate"><span class="pre">Reply-To</span></code> header in the message is set to whatever the submitted
+email was</p></li>
+<li><p>added <code class="docutils literal notranslate"><span class="pre">after_send</span></code> signal</p></li>
+<li><p><a class="reference external" href="https://github.com/sunlightlabs/django-honeypot">django-honeypot</a> is now just an optional dependency</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">example_project</span></code> is no longer incorrectly distributed with the application</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id11">
+<h2>0.4.1<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>security bugfix regarding initial form values</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id12">
+<h2>0.4.0<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>removed the function-based view</p></li>
+<li><p>removed <code class="docutils literal notranslate"><span class="pre">ContactForm.send()</span></code> method</p></li>
+<li><p>application signals (<code class="docutils literal notranslate"><span class="pre">before_send</span></code>)</p></li>
+<li><p>updated documentation</p></li>
+<li><p>reworked settings</p></li>
+<li><p>Continous Integration server, thanks to ShiningPanda</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id13">
+<h2>0.3.2<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>omit the brackets if the user doesn’t have a full name</p></li>
+<li><p>honeypot is mentioned in the usage docs</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id14">
+<h2>0.3.1<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>configurable recipients</p></li>
+<li><p>better logging hierarchy</p></li>
+<li><p>the code is more PEP-8 compliant</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id15">
+<h2>0.3.0<a class="headerlink" href="#id15" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>introduced a class-based <a class="reference internal" href="reference.html#envelope.views.ContactView" title="envelope.views.ContactView"><code class="xref py py-class docutils literal notranslate"><span class="pre">envelope.views.ContactView</span></code></a> (requires
+Django &gt;= 1.3)</p></li>
+<li><p>deprecated the function-based view <code class="docutils literal notranslate"><span class="pre">envelope.views.contact</span></code></p></li>
+<li><p>improved test coverage</p></li>
+<li><p>more and better documentation (also hosted on Read The Docs)</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id16">
+<h2>0.2.1<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>French translation added</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id17">
+<h2>0.2.0<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>deprecated the <code class="docutils literal notranslate"><span class="pre">ContactForm.send()</span></code> method, use
+<a class="reference internal" href="reference.html#envelope.forms.ContactForm.save" title="envelope.forms.ContactForm.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">envelope.forms.ContactForm.save()</span></code></a>  instead for more consistency
+with Django coding style</p></li>
+<li><p>localization support</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id18">
+<h2>0.1.4<a class="headerlink" href="#id18" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>added a more descriptive README file</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id19">
+<h2>0.1.3<a class="headerlink" href="#id19" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>added the <code class="docutils literal notranslate"><span class="pre">redirect_to</span></code> optional argument to view function</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id20">
+<h2>0.1.2<a class="headerlink" href="#id20" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>added the <code class="docutils literal notranslate"><span class="pre">extra_context</span></code> argument to view function</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id21">
+<h2>0.1.1<a class="headerlink" href="#id21" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>improved setup script, added dependencies</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id22">
+<h2>0.1.0<a class="headerlink" href="#id22" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>initial version</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">django-envelope</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">1.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">1.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">1.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">1.1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">1.0.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">0.7.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">0.6.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">0.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">0.5.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">0.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">0.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">0.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">0.3.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">0.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id15">0.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id16">0.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id17">0.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id18">0.1.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id19">0.1.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id20">0.1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id21">0.1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id22">0.1.0</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="reference.html" title="previous chapter">Reference</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2011-2017, Zbigniew Siciarz.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.4.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/changes.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -10,3 +10,6 @@ django-honeypot = "~=1.2.0"
 [dev-packages]
 coverage = "~=7.3.0"
 tox = "~=4.20.0"
+textile = "~=4.0.0"
+sphinx-rtd-theme = "~=2.0.0"
+Sphinx = "~=7.4.0"

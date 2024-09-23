@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Reference &#8212; django-envelope  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Changelog" href="changes.html" />
+    <link rel="prev" title="Development" href="development.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="reference">
+<h1>Reference<a class="headerlink" href="#reference" title="Link to this heading">¶</a></h1>
+<section id="module-envelope.views">
+<span id="views"></span><h2>Views<a class="headerlink" href="#module-envelope.views" title="Link to this heading">¶</a></h2>
+<p>Views used to process the contact form.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="envelope.views.ContactView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">envelope.views.</span></span><span class="sig-name descname"><span class="pre">ContactView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#envelope.views.ContactView" title="Link to this definition">¶</a></dt>
+<dd><p>Contact form view (class-based).</p>
+<p>Displays the contact form upon a GET request. If the current user is
+authenticated, <code class="docutils literal notranslate"><span class="pre">sender</span></code> and <code class="docutils literal notranslate"><span class="pre">email</span></code> fields are automatically
+filled with proper values.</p>
+<p>When the form is submitted and valid, a message is sent and
+afterwards the user is redirected to a “thank you” page (by default
+it is the page with the form).</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">form_class</span></code></dt><dd><p>Which form class to use for contact message handling.
+The default (<a class="reference internal" href="#envelope.forms.ContactForm" title="envelope.forms.ContactForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">envelope.forms.ContactForm</span></code></a>) is often
+enough, but you can subclass it if you want, or even replace
+with a totally custom class. The only requirement is that your
+custom class has a <code class="docutils literal notranslate"><span class="pre">save()</span></code> method which should send the
+message somewhere. Stick to the default, or its subclasses.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">form_kwargs</span></code></dt><dd><p>Additional kwargs to be used in the creation of the form. Use
+with <a class="reference internal" href="#envelope.forms.ContactForm" title="envelope.forms.ContactForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">envelope.forms.ContactForm</span></code></a> form arguments for
+dynamic customization of the form.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">template_name</span></code></dt><dd><p>Full name of the template which will display
+the form. By default it is “envelope/contact.html”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">success_url</span></code></dt><dd><p>URL of the page with some kind of a “thank you
+for your feedback”, displayed after the form is successfully
+submitted. If left unset, the view redirects to itself.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="envelope.views.ContactView.form_class">
+<span class="sig-name descname"><span class="pre">form_class</span></span><a class="headerlink" href="#envelope.views.ContactView.form_class" title="Link to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#envelope.forms.ContactForm" title="envelope.forms.ContactForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContactForm</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="envelope.views.ContactView.form_invalid">
+<span class="sig-name descname"><span class="pre">form_invalid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#envelope.views.ContactView.form_invalid" title="Link to this definition">¶</a></dt>
+<dd><p>When the form has errors, display it again.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="envelope.views.ContactView.form_valid">
+<span class="sig-name descname"><span class="pre">form_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#envelope.views.ContactView.form_valid" title="Link to this definition">¶</a></dt>
+<dd><p>Sends the message and redirects the user to <code class="docutils literal notranslate"><span class="pre">success_url</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="envelope.views.ContactView.get_form_kwargs">
+<span class="sig-name descname"><span class="pre">get_form_kwargs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#envelope.views.ContactView.get_form_kwargs" title="Link to this definition">¶</a></dt>
+<dd><p>Return the keyword arguments for instantiating the form.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="envelope.views.ContactView.get_initial">
+<span class="sig-name descname"><span class="pre">get_initial</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#envelope.views.ContactView.get_initial" title="Link to this definition">¶</a></dt>
+<dd><p>Automatically fills form fields for authenticated users.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="envelope.views.ContactView.get_success_url">
+<span class="sig-name descname"><span class="pre">get_success_url</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#envelope.views.ContactView.get_success_url" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the URL where the view will redirect after submission.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="envelope.views.filter_spam">
+<span class="sig-prename descclassname"><span class="pre">envelope.views.</span></span><span class="sig-name descname"><span class="pre">filter_spam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">form</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#envelope.views.filter_spam" title="Link to this definition">¶</a></dt>
+<dd><p>Handle spam filtering.</p>
+<p>This function is called when the <code class="docutils literal notranslate"><span class="pre">before_send</span></code> signal fires,
+passing the current request and form object to the function.
+With that information in hand, all available spam filters are called.</p>
+<p>TODO: more spam filters</p>
+</dd></dl>
+
+</section>
+<section id="module-envelope.forms">
+<span id="forms"></span><h2>Forms<a class="headerlink" href="#module-envelope.forms" title="Link to this heading">¶</a></h2>
+<p>Contact form class definitions.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="envelope.forms.ContactForm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">envelope.forms.</span></span><span class="sig-name descname"><span class="pre">ContactForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#envelope.forms.ContactForm" title="Link to this definition">¶</a></dt>
+<dd><p>Base contact form class.</p>
+<p>The following form attributes can be overridden when creating the
+form or in a subclass. If you need more flexibility, you can instead
+override the associated methods such as <cite>get_from_email()</cite> (see below).</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">subject_intro</span></code></dt><dd><p>Prefix used to create the subject line. Default is
+<code class="docutils literal notranslate"><span class="pre">settings.ENVELOPE_SUBJECT_INTRO</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">from_email</span></code></dt><dd><p>Used in the email from. Defaults to
+<code class="docutils literal notranslate"><span class="pre">settings.ENVELOPE_FROM_EMAIL</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">email_recipients</span></code></dt><dd><p>List of email addresses to send the email to. Defaults to
+<code class="docutils literal notranslate"><span class="pre">settings.ENVELOPE_EMAIL_RECIPIENTS</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">template_name</span></code></dt><dd><p>Template used to render the (plaintext) email message. Defaults to
+<code class="docutils literal notranslate"><span class="pre">envelope/email_body.txt</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">html_template_name</span></code></dt><dd><p>Template used to render the HTML email message. Defaults to
+<code class="docutils literal notranslate"><span class="pre">envelope/email_body.html</span></code>.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="envelope.forms.ContactForm.get_email_context">
+<span class="sig-name descname"><span class="pre">get_email_context</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#envelope.forms.ContactForm.get_email_context" title="Link to this definition">¶</a></dt>
+<dd><p>Returns context dictionary for the email body template.</p>
+<p>By default, the template has access to all form fields’ values
+stored in <code class="docutils literal notranslate"><span class="pre">self.cleaned_data</span></code>. Override this method to set
+additional template variables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="envelope.forms.ContactForm.get_email_recipients">
+<span class="sig-name descname"><span class="pre">get_email_recipients</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#envelope.forms.ContactForm.get_email_recipients" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a list of recipients for the message.</p>
+<p>Override to customize how the email recipients are determined.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="envelope.forms.ContactForm.get_from_email">
+<span class="sig-name descname"><span class="pre">get_from_email</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#envelope.forms.ContactForm.get_from_email" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the from email address.</p>
+<p>Override to customize how the from email address is determined.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="envelope.forms.ContactForm.get_subject">
+<span class="sig-name descname"><span class="pre">get_subject</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#envelope.forms.ContactForm.get_subject" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a string to be used as the email subject.</p>
+<p>Override this method to customize the display of the subject.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="envelope.forms.ContactForm.get_template_names">
+<span class="sig-name descname"><span class="pre">get_template_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#envelope.forms.ContactForm.get_template_names" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a template_name (or list of template_names) to be used
+for the email message.</p>
+<p>Override to use your own method choosing a template name.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="envelope.forms.ContactForm.media">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#envelope.forms.ContactForm.media" title="Link to this definition">¶</a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="envelope.forms.ContactForm.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#envelope.forms.ContactForm.save" title="Link to this definition">¶</a></dt>
+<dd><p>Sends the message.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="template-tags">
+<h2>Template tags<a class="headerlink" href="#template-tags" title="Link to this heading">¶</a></h2>
+<p>Add <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">load</span> <span class="pre">envelope_tags</span> <span class="pre">%}</span></code> to your template before using any of these.</p>
+<p id="module-envelope.templatetags.envelope_tags">Template tags related to the contact form.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="envelope.templatetags.envelope_tags.render_contact_form">
+<span class="sig-prename descclassname"><span class="pre">envelope.templatetags.envelope_tags.</span></span><span class="sig-name descname"><span class="pre">render_contact_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#envelope.templatetags.envelope_tags.render_contact_form" title="Link to this definition">¶</a></dt>
+<dd><p>Renders the contact form which must be in the template context.</p>
+<p>The most common use case for this template tag is to call it in the
+template rendered by <a class="reference internal" href="#envelope.views.ContactView" title="envelope.views.ContactView"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContactView</span></code></a>. The template
+tag will then render a sub-template <code class="docutils literal notranslate"><span class="pre">envelope/contact_form.html</span></code>.</p>
+</dd></dl>
+
+</section>
+<section id="module-envelope.spam_filters">
+<span id="spam-filters"></span><h2>Spam filters<a class="headerlink" href="#module-envelope.spam_filters" title="Link to this heading">¶</a></h2>
+<p>Functions that reject the message if it is considered spam.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="envelope.spam_filters.check_honeypot">
+<span class="sig-prename descclassname"><span class="pre">envelope.spam_filters.</span></span><span class="sig-name descname"><span class="pre">check_honeypot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">form</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#envelope.spam_filters.check_honeypot" title="Link to this definition">¶</a></dt>
+<dd><p>Make sure that the hidden form field is empty, using django-honeypot.</p>
+</dd></dl>
+
+</section>
+<section id="signals">
+<h2>Signals<a class="headerlink" href="#signals" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">before_send</span></code></p>
+<blockquote>
+<div><p>Sent after the form is submitted and valid, but before sending the message.</p>
+<p>Arguments:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">sender</span></code></dt><dd><p>View class.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">request</span></code></dt><dd><p>The current request object.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">form</span></code></dt><dd><p>The form object (already valid, so <code class="docutils literal notranslate"><span class="pre">cleaned_data</span></code> is available).</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">after_send</span></code></p>
+<blockquote>
+<div><p>This signal is sent after sending the message.</p>
+<p>Arguments:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">sender</span></code></dt><dd><p>Form class.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">message</span></code></dt><dd><p>An instance of <a class="reference external" href="https://docs.djangoproject.com/en/dev/topics/email/#django.core.mail.EmailMessage" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> that was used to send the message.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">form</span></code></dt><dd><p>The form object.</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">django-envelope</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-envelope.views">Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-envelope.forms">Forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#template-tags">Template tags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-envelope.spam_filters">Spam filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#signals">Signals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Changelog</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="development.html" title="previous chapter">Development</a></li>
+      <li>Next: <a href="changes.html" title="next chapter">Changelog</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2011-2017, Zbigniew Siciarz.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.4.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/reference.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

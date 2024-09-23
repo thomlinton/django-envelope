@@ -15,8 +15,6 @@ install:  ## Installs project dependencies into pipenv
 	@pipenv --venv || (pipenv --python $(pipenv_python); pipenv install -e .[all])
 
 documentation: install  ## Builds the currently available documentation.
-	@cp README.rst docs/source/introduction.rst
-	@cp CHANGELOG.rst docs/source/changelog.rst
 	@pipenv run sphinx-build -b html docs/source docs/
 
 view-docs: port=8000

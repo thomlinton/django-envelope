@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Usage &#8212; django-envelope  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configuration" href="configuration.html" />
+    <link rel="prev" title="Installation" href="install.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h1>
+<p>Add <code class="docutils literal notranslate"><span class="pre">envelope</span></code> to your <code class="docutils literal notranslate"><span class="pre">INSTALLED_APPS</span></code> in <code class="docutils literal notranslate"><span class="pre">settings.py</span></code>. The application
+does not define any models, so a <code class="docutils literal notranslate"><span class="pre">manage.py</span> <span class="pre">syncdb</span></code> is <em>not needed</em>. If you
+installed <code class="docutils literal notranslate"><span class="pre">django-honeypot</span></code>, add also <code class="docutils literal notranslate"><span class="pre">honeypot</span></code> to <code class="docutils literal notranslate"><span class="pre">INSTALLED_APPS</span></code>.</p>
+<p>For a quick start, simply include the app’s <code class="docutils literal notranslate"><span class="pre">urls.py</span></code> in your main URLconf, like
+this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="c1">#...</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^contact/&#39;</span><span class="p">,</span>    <span class="n">include</span><span class="p">(</span><span class="s1">&#39;envelope.urls&#39;</span><span class="p">)),</span>
+    <span class="c1">#...</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The view that you just hooked into your URLconf will try to render a
+<code class="docutils literal notranslate"><span class="pre">envelope/contact.html</span></code> template. Create that file in some location
+where Django would be able to find it (see the <a class="reference external" href="https://docs.djangoproject.com/en/dev/ref/templates/api/#loading-templates">Django template docs</a>
+for details).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 1.0: </span><code class="docutils literal notranslate"><span class="pre">django-envelope</span></code> used to ship with one such template by default.
+However, it made too opinionated assumptions about your templates and
+site layout. For that reason it was removed and you <em>must</em> now create
+the template explicitly.</p>
+</div>
+</div>
+<p>This template file can (and possibly should) extend your base site template.
+The view will pass to the context a <code class="docutils literal notranslate"><span class="pre">form</span></code> variable, which is an instance
+of <a class="reference internal" href="reference.html#envelope.forms.ContactForm" title="envelope.forms.ContactForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContactForm</span></code></a>. You can write your own HTML code
+for the form or use the provided <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">render_contact_form</span> <span class="pre">%}</span></code> template tag
+for simplicity. For example (assuming <code class="docutils literal notranslate"><span class="pre">base.html</span></code> is your main template):</p>
+<div class="highlight-html+django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">extends</span> <span class="s2">&quot;base.html&quot;</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">load</span> <span class="nv">envelope_tags</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}</span>
+    <span class="cp">{%</span> <span class="k">render_contact_form</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>That’s basically it. Navigate to the given URL and see the contact form in
+action. See <a class="reference internal" href="customization.html"><span class="doc">Customization</span></a> for more customization options.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">django-envelope</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Changelog</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="install.html" title="previous chapter">Installation</a></li>
+      <li>Next: <a href="configuration.html" title="next chapter">Configuration</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2011-2017, Zbigniew Siciarz.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.4.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/usage.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

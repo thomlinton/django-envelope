@@ -11,31 +11,31 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, os
-import pkg_resources
+import contextlib
+import os.path, os
+import sys
 
-try:
-    release = pkg_resources.get_distribution('django-envelope').version
-except pkg_resources.DistributionNotFound:
-    sys.exit(1)
-del pkg_resources
+import sphinx_rtd_theme
 
-version = '.'.join(release.split('.')[:2])
 
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('..'))
-os.environ['DJANGO_SETTINGS_MODULE'] = 'example_project.settings'
+# Adds path support for 'envelope' package
+sys.path.insert(0, os.path.abspath('../../'))
+
 
 # -- General configuration -----------------------------------------------------
+os.environ['DJANGO_SETTINGS_MODULE'] = 'example_project.settings'
+import envelope
 
 # If your documentation needs a minimal Sphinx version, state it here.
 #needs_sphinx = '1.0'
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx']
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.githubpages'
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -50,8 +50,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'django-envelope'
-copyright = u'2011-2017, Zbigniew Siciarz'
+project = 'django-envelope'
+copyright = '2011-2017, Zbigniew Siciarz'
 
 intersphinx_mapping = {
     'django': ('https://docs.djangoproject.com/en/dev/', 'http://docs.djangoproject.com/en/dev/_objects/')
@@ -185,8 +185,7 @@ htmlhelp_basename = 'django-envelopedoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'django-envelope.tex', u'django-envelope Documentation',
-   u'Zbigniew Siciarz', 'manual'),
+  ('index', 'django-envelope.tex', 'django-envelope Documentation', 'Zbigniew Siciarz', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -218,6 +217,6 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'django-envelope', u'django-envelope Documentation',
-     [u'Zbigniew Siciarz'], 1)
+    ('index', 'django-envelope', 'django-envelope Documentation',
+     ['Zbigniew Siciarz'], 1)
 ]

@@ -1,6 +1,7 @@
 """
 Unit tests for spam filters.
 """
+
 import unittest
 
 from django.conf import settings
@@ -17,7 +18,7 @@ class FakeForm(object):
 
 class FakeRequest(object):
     def __init__(self):
-        self.method = 'POST'
+        self.method = "POST"
         self.POST = {}
 
 
@@ -29,18 +30,18 @@ class CheckHoneypotTestCase(unittest.TestCase):
     def setUp(self):
         self.form = FakeForm()
         self.request = FakeRequest()
-        self.honeypot = getattr(settings, 'HONEYPOT_FIELD_NAME', 'email2')
+        self.honeypot = getattr(settings, "HONEYPOT_FIELD_NAME", "email2")
 
     def test_empty_honeypot(self):
         """
         Empty honeypot field is a valid situation.
         """
-        self.request.POST[self.honeypot] = ''
+        self.request.POST[self.honeypot] = ""
         self.assertTrue(check_honeypot(self.request, self.form))
 
     def test_filled_honeypot(self):
         """
         A value in the honeypot field is an indicator of a bot request.
         """
-        self.request.POST[self.honeypot] = 'Hi, this is a bot'
+        self.request.POST[self.honeypot] = "Hi, this is a bot"
         self.assertFalse(check_honeypot(self.request, self.form))

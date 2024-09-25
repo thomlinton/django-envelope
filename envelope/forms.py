@@ -14,7 +14,7 @@ from envelope import settings
 from envelope.signals import after_send
 
 
-logger = logging.getLogger('envelope.forms')
+logger = logging.getLogger("envelope.forms")
 
 
 class ContactForm(forms.Form):
@@ -46,6 +46,7 @@ class ContactForm(forms.Form):
         ``envelope/email_body.html``.
 
     """
+
     sender = forms.CharField(label=_("From"))
     email = forms.EmailField(label=_("Email"))
     subject = forms.CharField(label=_("Subject"), required=False)
@@ -54,8 +55,8 @@ class ContactForm(forms.Form):
     subject_intro = settings.SUBJECT_INTRO
     from_email = settings.FROM_EMAIL
     email_recipients = settings.EMAIL_RECIPIENTS
-    template_name = 'envelope/email_body.txt'
-    html_template_name = 'envelope/email_body.html'
+    template_name = "envelope/email_body.txt"
+    html_template_name = "envelope/email_body.html"
 
     def __init__(self, *args, **kwargs):
         for kwarg in list(kwargs):
@@ -78,17 +79,17 @@ class ContactForm(forms.Form):
                 body=message_body,
                 from_email=from_email,
                 to=email_recipients,
-                headers={
-                    'Reply-To': self.cleaned_data['email']
-                }
+                headers={"Reply-To": self.cleaned_data["email"]},
             )
             if settings.USE_HTML_EMAIL:
                 html_body = render_to_string(self.html_template_name, context)
                 message.attach_alternative(html_body, "text/html")
             message.send()
             after_send.send(sender=self.__class__, message=message, form=self)
-            logger.info(_("Contact form submitted and sent (from: %s)") %
-                        self.cleaned_data['email'])
+            logger.info(
+                _("Contact form submitted and sent (from: %s)")
+                % self.cleaned_data["email"]
+            )
         except SMTPException:
             logger.exception(_("An error occured while sending the email"))
             return False
@@ -111,7 +112,7 @@ class ContactForm(forms.Form):
 
         Override this method to customize the display of the subject.
         """
-        return self.subject_intro + self.cleaned_data['subject']
+        return self.subject_intro + self.cleaned_data["subject"]
 
     def get_from_email(self):
         """

@@ -1,6 +1,7 @@
 """
 Unit tests for ``django-envelope`` template tags.
 """
+
 from django.template import TemplateSyntaxError
 from django.template.loader import render_to_string
 from django.test import TestCase
@@ -23,6 +24,6 @@ class RenderContactFormTestCase(TestCase):
         """
         Antispam fields should not be escaped by Django.
         """
-        context = {'form': ContactForm()}
-        content = render_to_string('envelope/contact_form.html', context)
-        self.assertNotIn('&lt;div', content)
+        context = {"form": ContactForm()}
+        content = render_to_string("envelope/contact_form.html", context)
+        self.assertNotIn("&lt;div", content)

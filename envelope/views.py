@@ -19,9 +19,9 @@ logger = logging.getLogger("envelope.views")
 
 
 contactview_check_honeypot = functools.partial(
-    check_honeypot,
-    field_name=conf.HONEYPOT_FIELD_NAME
+    check_honeypot, field_name=conf.HONEYPOT_FIELD_NAME
 )
+
 
 @method_decorator(contactview_check_honeypot, name="post")
 class ContactView(FormView):
@@ -58,9 +58,10 @@ class ContactView(FormView):
         for your feedback", displayed after the form is successfully
         submitted. If left unset, the view redirects to itself.
     """
+
     form_class = ContactForm
     form_kwargs = {}
-    template_name = 'envelope/contact.html'
+    template_name = "envelope/contact.html"
     success_url = None
 
     def get_success_url(self):
@@ -81,13 +82,15 @@ class ContactView(FormView):
         if user.is_authenticated:
             # the user might not have a full name set in the model
             if user.get_full_name():
-                sender = '%s (%s)' % (user.get_username(), user.get_full_name())
+                sender = "%s (%s)" % (user.get_username(), user.get_full_name())
             else:
                 sender = user.get_username()
-            initial.update({
-                'sender': sender,
-                'email': user.email,
-            })
+            initial.update(
+                {
+                    "sender": sender,
+                    "email": user.email,
+                }
+            )
         return initial
 
     def get_form_kwargs(self):
@@ -99,10 +102,10 @@ class ContactView(FormView):
         """
         Sends the message and redirects the user to ``success_url``.
         """
-        responses = signals.before_send.send(sender=self.__class__,
-                                             request=self.request,
-                                             form=form)
-        for (receiver, response) in responses:
+        responses = signals.before_send.send(
+            sender=self.__class__, request=self.request, form=form
+        )
+        for receiver, response in responses:
             if not response:
                 logger.warning("Rejected by %s", receiver.__name__)
                 return HttpResponseBadRequest()

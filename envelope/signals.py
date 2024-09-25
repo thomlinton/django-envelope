@@ -1,6 +1,7 @@
 """
 Signals sent by the application.
 """
+
 from django.dispatch import Signal
 
 

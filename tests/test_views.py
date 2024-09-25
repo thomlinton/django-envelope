@@ -1,6 +1,7 @@
 """
 Unit tests for ``django-envelope`` views.
 """
+
 from django.conf import settings
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -17,16 +18,16 @@ class ContactViewTestCase(TestCase):
     """
 
     def setUp(self):
-        self.url = reverse('envelope-contact')
-        self.customized_url = reverse('customized_class_contact')
-        self.subclassed_url = reverse('subclassed_class_contact')
-        self.honeypot = getattr(settings, 'HONEYPOT_FIELD_NAME', 'email2')
+        self.url = reverse("envelope-contact")
+        self.customized_url = reverse("customized_class_contact")
+        self.subclassed_url = reverse("subclassed_class_contact")
+        self.honeypot = getattr(settings, "HONEYPOT_FIELD_NAME", "email2")
         self.form_data = {
-            'sender': 'zbyszek',
-            'email': 'test@example.com',
-            'subject': 'A subject',
-            'message': 'Hello there!',
-            self.honeypot: '',
+            "sender": "zbyszek",
+            "email": "test@example.com",
+            "subject": "A subject",
+            "message": "Hello there!",
+            self.honeypot: "",
         }
 
     def test_response_data(self):
@@ -36,7 +37,7 @@ class ContactViewTestCase(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "envelope/contact.html")
-        form = response.context['form']
+        form = response.context["form"]
         self.assertFalse(form.is_bound)
 
     def test_prefilled_form(self):
@@ -44,32 +45,28 @@ class ContactViewTestCase(TestCase):
         When an authenticated user hits the form view, his username, full name
         and email address are automatically filled in.
         """
-        user = User.objects.create_user('test', 'test@example.org', 'password')
-        user.first_name = 'John'
-        user.last_name = 'Doe'
+        user = User.objects.create_user("test", "test@example.org", "password")
+        user.first_name = "John"
+        user.last_name = "Doe"
         user.save()
-        logged_in = self.client.login(username='test', password='password')
+        logged_in = self.client.login(username="test", password="password")
         self.assertTrue(logged_in)
         response = self.client.get(self.url)
-        self.assertIn('form', response.context)
+        self.assertIn("form", response.context)
         self.assertEquals(
-            response.context['form'].initial.get('sender'),
-            "test (John Doe)"
+            response.context["form"].initial.get("sender"), "test (John Doe)"
         )
         self.assertEquals(
-            response.context['form'].initial.get('email'),
-            "test@example.org"
+            response.context["form"].initial.get("email"), "test@example.org"
         )
 
         self.client.logout()
         response = self.client.get(self.url)
         self.assertNotEquals(
-            response.context['form'].initial.get('sender'),
-            "test (John Doe)"
+            response.context["form"].initial.get("sender"), "test (John Doe)"
         )
         self.assertNotEquals(
-            response.context['form'].initial.get('email'),
-            "test@example.org"
+            response.context["form"].initial.get("email"), "test@example.org"
         )
 
     def test_prefilled_form_no_full_name(self):
@@ -78,24 +75,21 @@ class ContactViewTestCase(TestCase):
         name set (depends on the registration process), only his username is
         prefilled in the "From" field.
         """
-        User.objects.create_user('test', 'test@example.org', 'password')
-        logged_in = self.client.login(username='test', password='password')
+        User.objects.create_user("test", "test@example.org", "password")
+        logged_in = self.client.login(username="test", password="password")
         self.assertTrue(logged_in)
         response = self.client.get(self.url)
-        self.assertIn('form', response.context)
-        self.assertEquals(
-            response.context['form'].initial.get('sender'),
-            "test"
-        )
+        self.assertIn("form", response.context)
+        self.assertEquals(response.context["form"].initial.get("sender"), "test")
 
     def test_honeypot(self):
         """
         If the honeypot field is not empty, keep the spammer off the page.
         """
-        self.form_data.update({self.honeypot: 'some value'})
+        self.form_data.update({self.honeypot: "some value"})
         response = self.client.post(self.url, self.form_data)
         self.assertEqual(response.status_code, 400)
-        self.form_data.update({self.honeypot: ''})
+        self.form_data.update({self.honeypot: ""})
         response = self.client.post(self.url, self.form_data, follow=True)
         self.assertEqual(response.status_code, 200)
 
@@ -103,7 +97,7 @@ class ContactViewTestCase(TestCase):
         """
         If the POST data is incorrect, the form is invalid.
         """
-        self.form_data.update({'sender': ''})
+        self.form_data.update({"sender": ""})
         response = self.client.post(self.url, self.form_data)
         self.assertEqual(response.status_code, 200)
 
@@ -123,11 +117,11 @@ class ContactViewTestCase(TestCase):
         params = {}
 
         def handle_before_send(sender, request, form, **kwargs):
-            params['form'] = form
+            params["form"] = form
 
         signals.before_send.connect(handle_before_send)
         self.client.post(self.url, self.form_data, follow=True)
-        self.assertEqual(params['form'].cleaned_data['email'], self.form_data['email'])
+        self.assertEqual(params["form"].cleaned_data["email"], self.form_data["email"])
 
     def test_signal_after_send(self):
         """
@@ -136,11 +130,11 @@ class ContactViewTestCase(TestCase):
         params = {}
 
         def handle_after_send(sender, message, form, **kwargs):
-            params['message'] = message
+            params["message"] = message
 
         signals.after_send.connect(handle_after_send)
         self.client.post(self.url, self.form_data, follow=True)
-        self.assertIn(self.form_data['subject'], params['message'].subject)
+        self.assertIn(self.form_data["subject"], params["message"].subject)
 
     def test_custom_template(self):
         """
@@ -162,6 +156,6 @@ class ContactViewTestCase(TestCase):
 
         See: https://github.com/zsiciarz/django-envelope/issues/18
         """
-        self.form_data.update({self.honeypot: 'some value'})
+        self.form_data.update({self.honeypot: "some value"})
         response = self.client.post(self.subclassed_url, self.form_data, follow=True)
         self.assertEqual(response.status_code, 400)

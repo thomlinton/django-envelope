@@ -6,5 +6,5 @@ from envelope.views import ContactView
 
 
 urlpatterns = [
-    re_path(r'^$', ContactView.as_view(), name='envelope-contact'),
+    re_path(r"^$", ContactView.as_view(), name="envelope-contact"),
 ]

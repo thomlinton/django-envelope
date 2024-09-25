@@ -8,10 +8,12 @@ from django.utils.translation import gettext_lazy as _
 
 FROM_EMAIL = settings.DEFAULT_FROM_EMAIL
 
-EMAIL_RECIPIENTS = getattr(settings, 'ENVELOPE_EMAIL_RECIPIENTS',
-                           [settings.DEFAULT_FROM_EMAIL])
+EMAIL_RECIPIENTS = getattr(
+    settings, "ENVELOPE_EMAIL_RECIPIENTS", [settings.DEFAULT_FROM_EMAIL]
+)
 
-SUBJECT_INTRO = getattr(settings, 'ENVELOPE_SUBJECT_INTRO',
-                        _("Message from contact form: "))
+SUBJECT_INTRO = getattr(
+    settings, "ENVELOPE_SUBJECT_INTRO", _("Message from contact form: ")
+)
 
-USE_HTML_EMAIL = getattr(settings, 'ENVELOPE_USE_HTML_EMAIL', True)
+USE_HTML_EMAIL = getattr(settings, "ENVELOPE_USE_HTML_EMAIL", True)

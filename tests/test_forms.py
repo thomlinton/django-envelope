@@ -20,38 +20,38 @@ class ContactFormTestCase(unittest.TestCase):
 
     def setUp(self):
         self.form_data = {
-            'sender': 'me',
-            'email': 'test@example.com',
-            'subject': 'A subject',
-            'message': 'Hello there!',
+            "sender": "me",
+            "email": "test@example.com",
+            "subject": "A subject",
+            "message": "Hello there!",
         }
 
     def test_sender_field(self):
         """
         Sender field is required.
         """
-        self._test_required_field('sender')
+        self._test_required_field("sender")
 
     def test_email_field(self):
         """
         E-mail field is required.
         """
-        self._test_required_field('email')
+        self._test_required_field("email")
 
     def test_message_field(self):
         """
         Message field is required.
         """
-        self._test_required_field('message')
+        self._test_required_field("message")
 
     def test_subject_field(self):
         """
         Subject field is optional.
         """
-        del self.form_data['subject']
+        del self.form_data["subject"]
         form = ContactForm(self.form_data)
         self.assertTrue(form.is_valid())
-        self.assertNotIn('subject', form.errors)
+        self.assertNotIn("subject", form.errors)
 
     def test_all_fields_valid(self):
         """
@@ -76,12 +76,12 @@ class ContactFormTestCase(unittest.TestCase):
         """
         form = ContactForm(self.form_data)
         self.assertTrue(form.is_valid())
-        with patch('django.core.mail.EmailMultiAlternatives') as mock_message:
+        with patch("django.core.mail.EmailMultiAlternatives") as mock_message:
             mock_message.return_value.send.return_value = True
             result = form.save()
             self.assertTrue(result)
             args, kwargs = mock_message.call_args
-            self.assertIn(self.form_data['subject'], kwargs['subject'])
+            self.assertIn(self.form_data["subject"], kwargs["subject"])
 
     def test_html_message_alternative_part(self):
         """
@@ -89,7 +89,7 @@ class ContactFormTestCase(unittest.TestCase):
         """
         form = ContactForm(self.form_data)
         self.assertTrue(form.is_valid())
-        with patch('django.core.mail.EmailMultiAlternatives') as mock_message:
+        with patch("django.core.mail.EmailMultiAlternatives") as mock_message:
             form.save()
             self.assertTrue(mock_message.return_value.attach_alternative.called)
 
@@ -98,19 +98,19 @@ class ContactFormTestCase(unittest.TestCase):
         Attributes can be overridden on __init__()
         """
         overrides = {
-            'subject_intro': 'New subject style: ',
-            'from_email': 'new@example.com',
-            'email_recipients': ['new_to@example.com'],
+            "subject_intro": "New subject style: ",
+            "from_email": "new@example.com",
+            "email_recipients": ["new_to@example.com"],
         }
         form = ContactForm(self.form_data, **overrides)
         form.is_valid()
-        with patch('django.core.mail.EmailMultiAlternatives') as mock_message:
+        with patch("django.core.mail.EmailMultiAlternatives") as mock_message:
             mock_message.return_value.send.return_value = True
             form.save()
             args, kwargs = mock_message.call_args
-            self.assertIn(overrides['subject_intro'], kwargs['subject'])
-            self.assertIn(overrides['from_email'], kwargs['from_email'])
-            self.assertIn(overrides['email_recipients'][0], kwargs['to'])
+            self.assertIn(overrides["subject_intro"], kwargs["subject"])
+            self.assertIn(overrides["from_email"], kwargs["from_email"])
+            self.assertIn(overrides["email_recipients"][0], kwargs["to"])
 
     def test_save_smtp_error(self):
         """
@@ -118,7 +118,7 @@ class ContactFormTestCase(unittest.TestCase):
         """
         form = ContactForm(self.form_data)
         self.assertTrue(form.is_valid())
-        with patch('django.core.mail.EmailMultiAlternatives') as mock_message:
+        with patch("django.core.mail.EmailMultiAlternatives") as mock_message:
             mock_message.return_value.send.side_effect = SMTPException
             result = form.save()
             self.assertFalse(result)

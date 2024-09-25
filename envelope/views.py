@@ -2,19 +2,28 @@
 Views used to process the contact form.
 """
 
+import functools
 import logging
 
+from django.utils.decorators import method_decorator
 from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.views.generic import FormView
 
-from envelope import signals
+from honeypot.decorators import check_honeypot
+
 from envelope.forms import ContactForm
+from envelope import signals, conf
+
+logger = logging.getLogger("envelope.views")
 
 
-logger = logging.getLogger('envelope.views')
+contactview_check_honeypot = functools.partial(
+    check_honeypot,
+    field_name=conf.HONEYPOT_FIELD_NAME
+)
 
-
+@method_decorator(contactview_check_honeypot, name="post")
 class ContactView(FormView):
     """
     Contact form view (class-based).
@@ -105,22 +114,3 @@ class ContactView(FormView):
         When the form has errors, display it again.
         """
         return self.render_to_response(self.get_context_data(form=form))
-
-
-def filter_spam(sender, request, form, **kwargs):
-    """
-    Handle spam filtering.
-
-    This function is called when the ``before_send`` signal fires,
-    passing the current request and form object to the function.
-    With that information in hand, all available spam filters are called.
-
-    TODO: more spam filters
-    """
-    if issubclass(sender, ContactView):
-        from envelope.spam_filters import check_honeypot
-        return check_honeypot(request, form)
-
-
-signals.before_send.connect(filter_spam,
-                            dispatch_uid='envelope.views.filter_spam')

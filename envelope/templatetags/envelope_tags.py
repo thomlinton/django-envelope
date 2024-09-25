@@ -5,12 +5,15 @@ from django import template
 
 import honeypot
 
+from envelope import conf
+
 register = template.Library()
 
 
 # Register antispam_fields as an inclusion tag
 @register.inclusion_tag('envelope/honeypot.html', takes_context=True)
 def render_honeypot(context):
+    context['HONEYPOT_FIELD_NAME'] = conf.HONEYPOT_FIELD_NAME
     return context
 
 
